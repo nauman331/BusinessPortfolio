@@ -5,8 +5,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Facebook, Instagram, PhoneCall, ShieldCheck, X } from "lucide-react";
 import { useWhenVisible } from "@/hooks/useWhenVisible";
 
-const navItems = ["About", "Capabilities", "Solutions", "Contact"];
-const menuItems = ["Home", "About Us", "Security AI", "Roster Sync", "Capabilities", "Contact"];
+const navItems = ["How It Works", "Capabilities", "Roster Sync", "Contact"];
+const menuItems = ["Home", "How It Works", "Security AI", "Roster Sync", "Capabilities", "Contact"];
 const heroImage = "/hero-security.jpg";
 
 const fadeUp = {
@@ -221,7 +221,7 @@ export function Hero() {
         {navItems.map((item, i) => (
           <motion.a
             key={item}
-            href="#top"
+            href={item === "How It Works" ? "#how-it-works" : item === "Capabilities" ? "#capabilities" : "#top"}
             initial="hidden"
             animate={showContent ? "show" : "hidden"}
             variants={fadeUp}
@@ -287,7 +287,7 @@ export function Hero() {
               {menuItems.map((item, index) => (
                 <motion.a
                   key={item}
-                  href="#top"
+                  href={item === "How It Works" ? "#how-it-works" : item === "Capabilities" ? "#capabilities" : "#top"}
                   onClick={() => setMenuOpen(false)}
                   onHoverStart={() => setActiveMenuIndex(index)}
                   onFocus={() => setActiveMenuIndex(index)}

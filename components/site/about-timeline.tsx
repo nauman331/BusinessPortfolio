@@ -5,74 +5,56 @@ import Image from "next/image";
 import { motion, useInView, useScroll, useSpring, useTransform } from "framer-motion";
 import { StaggerHeading } from "@/components/site/stagger-heading";
 
-type YearItem = {
-  year: string;
+type StepItem = {
+  step: string;
   label: string;
+  title: string;
   description: string;
   image: string;
   imageAlt: string;
   accent: string;
 };
 
-const items: YearItem[] = [
+const items: StepItem[] = [
   {
-    year: "2022",
-    label: "Core Voice AI",
+    step: "01",
+    label: "Roster Sync",
+    title: "Connect Your Roster & Website",
     description:
-      "Engineered ultra-low-latency voice synthesis and natural security-domain dialog models capable of real-time conversational dispatch under high pressure.",
-    image: "https://cdn.prod.website-files.com/68efdb35db90f2ad02b2fe4b/68f3377a504a85f461daf821_year%20image.webp",
-    imageAlt: "Voice AI Architecture",
+      "Seamlessly integrate our AI calling agent with your existing security portal and guard scheduling system. The AI continuously syncs active shifts, standby guards, and post assignments in real time.",
+    image: "/images/how-it-works/step1-roster-sync.jpg",
+    imageAlt: "Security Roster and Website AI Synchronization",
     accent: "bg-[#00d4ff]",
   },
   {
-    year: "2023",
-    label: "Roster Engine",
+    step: "02",
+    label: "AI Voice Call",
+    title: "Autonomous Voice Dispatch",
     description:
-      "Developed bi-directional live sync with leading guard scheduling software, enabling automated roster validation and autonomous vacancy-filling callouts.",
-    image:
-      "https://cdn.prod.website-files.com/68efdb35db90f2ad02b2fe4b/6910d8257abcbca6e7ac961d_about%20year%20card%20image%202.webp",
-    imageAlt: "Roster Engine Architecture",
-    accent: "bg-[#38bdf8]",
-  },
-  {
-    year: "2024",
-    label: "Guard Callouts",
-    description:
-      "Rolled out autonomous outbound phone dispatch for shift confirmations, guard wellness check-ins, and emergency patrol escalation calling across 100+ sites.",
-    image:
-      "https://cdn.prod.website-files.com/68efdb35db90f2ad02b2fe4b/6910d8f867741df0a5304d6c_about%20year%20card%20image%203.webp",
-    imageAlt: "Guard Dispatch Network",
-    accent: "bg-[#2dd4bf]",
-  },
-  {
-    year: "2025",
-    label: "National Scale",
-    description:
-      "Expanded across leading security firms nationwide, handling over 250,000 automated security calls monthly with 99.98% roster shift coverage.",
-    image:
-      "https://cdn.prod.website-files.com/68efdb35db90f2ad02b2fe4b/6910da33a448d569577ecc79_about%20year%20card%20image%204.webp",
-    imageAlt: "National Security Network",
+      "When an open shift, absent guard alert, or incident callout is triggered, the AI agent immediately dials guards with natural, conversational voice intelligence and sub-second latency.",
+    image: "/images/how-it-works/step2-ai-calling.jpg",
+    imageAlt: "Autonomous AI Voice Calling Engine",
     accent: "bg-[#00e5ff]",
   },
   {
-    year: "2026",
-    label: "Incident AI",
+    step: "03",
+    label: "Guard Response",
+    title: "Two-Way Dynamic Verification",
     description:
-      "Integrated autonomous multi-party incident handling: simultaneous dispatch to on-duty guards, supervisor alerts, and automated client status voice calls.",
-    image:
-      "https://cdn.prod.website-files.com/68efdb35db90f2ad02b2fe4b/6910db16f2fca6862b2d3ddb_about%20year%20card%20image%205.webp",
-    imageAlt: "Autonomous Incident AI",
-    accent: "bg-[#818cf8]",
+      "The AI conducts real-time phone dialog with guards—confirming shift availability, verifying security clearance, and handling schedule objections with zero supervisor overhead.",
+    image: "/images/how-it-works/step3-guard-response.jpg",
+    imageAlt: "Guard Phone Call Verification",
+    accent: "bg-[#38bdf8]",
   },
   {
-    year: "2027",
-    label: "Next-Gen Vision",
+    step: "04",
+    label: "Live Update",
+    title: "Instant Portal Synchronization",
     description:
-      "Pioneering predictive roster optimization, biometric voice verification, and autonomous perimeter response for the future of digital security operations.",
-    image:
-      "https://cdn.prod.website-files.com/68efdb35db90f2ad02b2fe4b/6910db82ffe127c4e7abd372_about%20year%20card%20image%206.webp",
-    imageAlt: "Next-Gen Security Vision",
-    accent: "bg-[#67e8f9]",
+      "Confirmed guards are instantly locked into your roster portal. Full audio recordings, call transcripts, and dispatch timestamps are immediately updated on your operations dashboard.",
+    image: "/images/how-it-works/step4-live-sync.jpg",
+    imageAlt: "Live Roster Status and Call Verification",
+    accent: "bg-[#2dd4bf]",
   },
 ];
 
@@ -93,70 +75,78 @@ export function AboutTimeline() {
     return () => window.removeEventListener("resize", update);
   }, []);
 
-  const distance = useMemo(() => {
-    if (!viewportWidth) return 0;
-    const cardWidth = 560;
-    const gap = 80;
-    return Math.max(items.length * cardWidth + (items.length - 1) * gap - viewportWidth, 0);
-  }, [viewportWidth]);
+  const cardWidth = 560;
+  const gap = 80;
 
   const startOffset = useMemo(() => {
     if (!viewportWidth) return 0;
-    const cardWidth = 560;
     return Math.max((viewportWidth - cardWidth) / 2, 0);
   }, [viewportWidth]);
 
-  const travelDistance = distance * 1.08;
+  // Exact offset to center the LAST card right in the middle of the viewport
+  const endOffset = useMemo(() => {
+    if (!viewportWidth) return 0;
+    return startOffset - (items.length - 1) * (cardWidth + gap);
+  }, [viewportWidth, startOffset]);
 
-  const x = useTransform(scrollYProgress, [0, 1], [startOffset, -(travelDistance - startOffset)], {
-    clamp: true,
-  });
+  // Last card reaches center by 0.80 scroll progress, and stays centered until 1.0
+  const x = useTransform(
+    scrollYProgress,
+    [0, 0.80, 1],
+    [startOffset, endOffset, endOffset],
+    { clamp: true }
+  );
+
   const smoothX = useSpring(x, {
-    stiffness: 80,
-    damping: 24,
+    stiffness: 90,
+    damping: 26,
     mass: 0.35,
   });
 
   return (
-    <section ref={sectionRef} className="relative bg-[#070d18] text-white border-t border-cyan-900/30">
+    <section ref={sectionRef} id="how-it-works" className="relative bg-[#070d18] text-white border-t border-cyan-900/30">
       <div className="mx-auto max-w-[1600px] px-3 pt-24 sm:px-6">
-        <div ref={headingRef} className="relative">
+        <div ref={headingRef} className="relative flex justify-center text-center">
           <StaggerHeading
-            text="Our Journey"
+            text="How It Works"
             inView={headingInView}
             className="font-display text-[clamp(3.5rem,14.5vw,14rem)] uppercase leading-[0.9] tracking-[-0.01em] text-white text-center"
-            badgeText="Security AI"
+            badgeText="AI Workflow"
           />
         </div>
       </div>
-      <div className="relative h-[520vh]">
+      <div className="relative h-[480vh]">
         <div className="sticky top-0 h-screen overflow-hidden">
           <motion.div style={{ x: smoothX }} className="flex h-full gap-20 px-6 will-change-transform sm:px-8 lg:px-12">
             {items.map((item) => (
               <article
-                key={item.year}
+                key={item.step}
                 className="relative flex h-full w-[560px] shrink-0 flex-col justify-start py-10"
               >
-                <div className="relative">
-                  <div className="font-display text-[clamp(8rem,13vw,13rem)] leading-none tracking-[-0.05rem] text-white/90">
-                    {item.year}
+                {/* Step number with tilted sticker badge across its middle */}
+                <div className="relative inline-block w-fit">
+                  <div className="font-display text-[clamp(8rem,13vw,13rem)] leading-none tracking-[-0.05rem] text-cyan-400/80">
+                    {item.step}
                   </div>
                   <div
-                    className={`absolute left-1/2 top-[20%] -translate-x-1/2 -rotate-[12deg] px-4 py-2 font-display text-[clamp(0.95rem,1.4vw,1.35rem)] uppercase leading-none text-[#08101e] shadow-[0_18px_40px_rgba(0,0,0,0.4)] font-bold ${item.accent}`}
+                    className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-[10deg] whitespace-nowrap px-5 py-2 font-display text-[clamp(0.95rem,1.4vw,1.35rem)] uppercase leading-none text-[#08101e] shadow-[0_16px_40px_rgba(0,0,0,0.6)] font-bold z-10 ${item.accent}`}
                   >
                     {item.label}
                   </div>
                 </div>
 
-                <div className="mt-8 space-y-6">
-                  <div className="h-px w-full bg-white/15" />
-                  <p className="max-w-[470px] text-[1.04rem] leading-8 text-white/70">
+                <div className="mt-4 space-y-4">
+                  <div className="h-px w-full bg-cyan-500/20" />
+                  <h3 className="font-display text-2xl uppercase tracking-wide text-white">
+                    {item.title}
+                  </h3>
+                  <p className="max-w-[470px] text-[1.04rem] leading-7 text-white/75">
                     {item.description}
                   </p>
 
-                  <div className="relative h-[300px] w-[480px] overflow-hidden rounded-[2rem] bg-white/5 border border-white/10 shadow-[0_28px_80px_rgba(0,0,0,0.5)]">
+                  <div className="relative h-[300px] w-[480px] overflow-hidden rounded-[2rem] bg-black/40 border border-cyan-500/30 shadow-[0_28px_80px_rgba(0,0,0,0.6)]">
                     <Image src={item.image} alt={item.imageAlt} fill sizes="480px" className="object-cover" />
-                    <div className="absolute inset-0 bg-black/20" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#070d18]/40 via-transparent to-transparent pointer-events-none" />
                   </div>
                 </div>
               </article>

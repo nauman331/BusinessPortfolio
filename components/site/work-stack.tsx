@@ -175,7 +175,7 @@ export function WorkStack() {
   });
 
   return (
-    <section className="bg-[#070d18] text-white border-t border-cyan-900/30">
+    <section id="capabilities" className="bg-[#070d18] text-white border-t border-cyan-900/30">
       {/* Heading */}
       <div className="mx-auto max-w-[1600px] px-3 pb-6 pt-24 sm:px-6">
         <div ref={headingRef} className="relative">
