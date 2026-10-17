@@ -17,64 +17,62 @@ type YearItem = {
 const items: YearItem[] = [
   {
     year: "2022",
-    label: "UK Office",
+    label: "Core Voice AI",
     description:
-      "We officially opened UK office, laying foundation for our international operations and enabling us to work closely with global clients while delivering high-quality digital solutions.",
+      "Engineered ultra-low-latency voice synthesis and natural security-domain dialog models capable of real-time conversational dispatch under high pressure.",
     image: "https://cdn.prod.website-files.com/68efdb35db90f2ad02b2fe4b/68f3377a504a85f461daf821_year%20image.webp",
-    imageAlt: "",
-    accent: "bg-[#ff8b61]",
+    imageAlt: "Voice AI Architecture",
+    accent: "bg-[#00d4ff]",
   },
   {
     year: "2023",
-    label: "New Team",
+    label: "Roster Engine",
     description:
-      "We focused on forming a strong and reliable team of designers, developers, and digital specialists. This dedicated team allowed us to improve, increase delivery speed.",
+      "Developed bi-directional live sync with leading guard scheduling software, enabling automated roster validation and autonomous vacancy-filling callouts.",
     image:
       "https://cdn.prod.website-files.com/68efdb35db90f2ad02b2fe4b/6910d8257abcbca6e7ac961d_about%20year%20card%20image%202.webp",
-    imageAlt:
-      "Purple booklet with metallic logo and text reading 'Kearney Group' and 'From transactional to transformational' on a ribbed purple and white surface.",
-    accent: "bg-[#c68cff]",
+    imageAlt: "Roster Engine Architecture",
+    accent: "bg-[#38bdf8]",
   },
   {
     year: "2024",
-    label: "Global Clients",
+    label: "Guard Callouts",
     description:
-      "We expanded our reach and began working with clients across multiple countries. We delivered diverse, high-quality digital solutions worldwide.",
+      "Rolled out autonomous outbound phone dispatch for shift confirmations, guard wellness check-ins, and emergency patrol escalation calling across 100+ sites.",
     image:
       "https://cdn.prod.website-files.com/68efdb35db90f2ad02b2fe4b/6910d8f867741df0a5304d6c_about%20year%20card%20image%203.webp",
-    imageAlt:
-      "Abstract 3D design featuring intertwined orange and red ribbon-like shapes on a white textured background.",
-    accent: "bg-[#ff8b61]",
+    imageAlt: "Guard Dispatch Network",
+    accent: "bg-[#2dd4bf]",
   },
   {
     year: "2025",
-    label: "Online Growth",
+    label: "National Scale",
     description:
-      "We experienced strong online growth by expanding our digital presence through strategic branding and performance-driven channels.",
+      "Expanded across leading security firms nationwide, handling over 250,000 automated security calls monthly with 99.98% roster shift coverage.",
     image:
       "https://cdn.prod.website-files.com/68efdb35db90f2ad02b2fe4b/6910da33a448d569577ecc79_about%20year%20card%20image%204.webp",
-    imageAlt: "about year card image",
-    accent: "bg-[#ff8b61]",
+    imageAlt: "National Security Network",
+    accent: "bg-[#00e5ff]",
   },
   {
     year: "2026",
-    label: "Creative Hub",
+    label: "Incident AI",
     description:
-      "We evolved into a full-scale creative hub, bringing together design, development, strategic thinking to deliver innovative, collaborative, and future-ready digital solutions.",
+      "Integrated autonomous multi-party incident handling: simultaneous dispatch to on-duty guards, supervisor alerts, and automated client status voice calls.",
     image:
       "https://cdn.prod.website-files.com/68efdb35db90f2ad02b2fe4b/6910db16f2fca6862b2d3ddb_about%20year%20card%20image%205.webp",
-    imageAlt: "about year card image",
-    accent: "bg-[#6cc7ff]",
+    imageAlt: "Autonomous Incident AI",
+    accent: "bg-[#818cf8]",
   },
   {
     year: "2027",
-    label: "New Vision",
+    label: "Next-Gen Vision",
     description:
-      "We defined clear new vision focused on innovation, creativity, and long-term impact—guiding how we design, build, and scale meaningful the best digital experiences for users.",
+      "Pioneering predictive roster optimization, biometric voice verification, and autonomous perimeter response for the future of digital security operations.",
     image:
       "https://cdn.prod.website-files.com/68efdb35db90f2ad02b2fe4b/6910db82ffe127c4e7abd372_about%20year%20card%20image%206.webp",
-    imageAlt: "about year card image",
-    accent: "bg-[#8cf07a]",
+    imageAlt: "Next-Gen Security Vision",
+    accent: "bg-[#67e8f9]",
   },
 ];
 
@@ -120,14 +118,14 @@ export function AboutTimeline() {
   });
 
   return (
-    <section ref={sectionRef} className="relative bg-white text-black">
+    <section ref={sectionRef} className="relative bg-[#070d18] text-white border-t border-cyan-900/30">
       <div className="mx-auto max-w-[1600px] px-3 pt-24 sm:px-6">
         <div ref={headingRef} className="relative">
           <StaggerHeading
             text="Our Journey"
             inView={headingInView}
-            className="font-display text-[clamp(3.5rem,14.5vw,14rem)] uppercase leading-[0.9] tracking-[-0.01em] text-[#141414] text-center"
-            badgeText="Timeline"
+            className="font-display text-[clamp(3.5rem,14.5vw,14rem)] uppercase leading-[0.9] tracking-[-0.01em] text-white text-center"
+            badgeText="Security AI"
           />
         </div>
       </div>
@@ -140,25 +138,25 @@ export function AboutTimeline() {
                 className="relative flex h-full w-[560px] shrink-0 flex-col justify-start py-10"
               >
                 <div className="relative">
-                  <div className="font-display text-[clamp(8rem,13vw,13rem)] leading-none tracking-[-0.05rem] text-black">
+                  <div className="font-display text-[clamp(8rem,13vw,13rem)] leading-none tracking-[-0.05rem] text-white/90">
                     {item.year}
                   </div>
                   <div
-                    className={`absolute left-1/2 top-[20%] -translate-x-1/2 -rotate-[12deg] px-4 py-2 font-display text-[clamp(0.95rem,1.4vw,1.35rem)] uppercase leading-none text-black shadow-[0_18px_40px_rgba(0,0,0,0.16)] ${item.accent}`}
+                    className={`absolute left-1/2 top-[20%] -translate-x-1/2 -rotate-[12deg] px-4 py-2 font-display text-[clamp(0.95rem,1.4vw,1.35rem)] uppercase leading-none text-[#08101e] shadow-[0_18px_40px_rgba(0,0,0,0.4)] font-bold ${item.accent}`}
                   >
                     {item.label}
                   </div>
                 </div>
 
                 <div className="mt-8 space-y-6">
-                  <div className="h-px w-full bg-black/20" />
-                  <p className="max-w-[470px] text-[1.04rem] leading-8 text-black/75">
+                  <div className="h-px w-full bg-white/15" />
+                  <p className="max-w-[470px] text-[1.04rem] leading-8 text-white/70">
                     {item.description}
                   </p>
 
-                  <div className="relative h-[300px] w-[480px] overflow-hidden rounded-[2rem] bg-black/5 shadow-[0_28px_80px_rgba(0,0,0,0.12)]">
+                  <div className="relative h-[300px] w-[480px] overflow-hidden rounded-[2rem] bg-white/5 border border-white/10 shadow-[0_28px_80px_rgba(0,0,0,0.5)]">
                     <Image src={item.image} alt={item.imageAlt} fill sizes="480px" className="object-cover" />
-                    <div className="absolute inset-0 bg-black/5" />
+                    <div className="absolute inset-0 bg-black/20" />
                   </div>
                 </div>
               </article>

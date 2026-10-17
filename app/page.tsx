@@ -1,4 +1,4 @@
-﻿import { Hero } from "@/components/site/hero";
+import { Hero } from "@/components/site/hero";
 import { AboutTimeline } from "@/components/site/about-timeline";
 import { WorkStack } from "@/components/site/work-stack";
 

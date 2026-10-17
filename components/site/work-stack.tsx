@@ -17,49 +17,49 @@ type WorkItem = {
   image: string;
   alt: string;
   left: string; // lighter left half
-  right: string; // darker right half (match the image background)
+  right: string; // darker right half
 };
 
 const works: WorkItem[] = [
   {
-    title: "Drink Different Web Design WITH WP",
+    title: "Automated Roster Sync & Shift Dispatch",
     description:
-      "Drink Different Web Design with WP delivers bold, refreshing WordPress sites featuring custom layouts, vibrant visuals, smooth interactions, and a playful brand style experience.",
+      "Bi-directional API sync with your security scheduling platform. The AI calls off-duty and standby guards to confirm shifts, fill open roster gaps, and instantly updates your live dashboard.",
     image:
       "https://cdn.prod.website-files.com/692f25b223f2b302c5738113/6958ad981856872ea999e6bc_card%20image%202.avif",
-    alt: "Drink Different Web Design with WP",
-    left: "#a899ff",
-    right: "#8573ee",
+    alt: "Automated Roster Sync & Shift Dispatch",
+    left: "#0e7490",
+    right: "#083344",
   },
   {
-    title: "Push Past Pack Design in New Style",
+    title: "24/7 Rapid Incident Callout Dispatch",
     description:
-      "Push Past Pack Design in New Style delivers bold, modern packaging concepts that redefine visuals, elevate branding, and introduce fresh creative energy.",
+      "Instant voice dispatch triggered by alarm alerts or panic codes. The AI dials the nearest active patrol units with exact location data, incident classification, and entry protocols.",
     image:
       "https://cdn.prod.website-files.com/692f25b223f2b302c5738113/695a09e703602d5c373cac12_project%20card%20image.avif",
-    alt: "Push Past Pack Design in New Style",
-    left: "#ff9460",
-    right: "#ff7a3d",
+    alt: "24/7 Rapid Incident Callout Dispatch",
+    left: "#0f766e",
+    right: "#134e4a",
   },
   {
-    title: "Packaging Design with On-Demand Experts",
+    title: "Guard Check-In & Safety Verification",
     description:
-      "Packaging Design with On-Demand Experts delivers tailored, high-quality packaging solutions created by skilled specialists who craft standout visuals, smart layouts.",
+      "Autonomous hourly voice check-ins for lone guards and overnight patrols. The AI verifies guard responsiveness, logs status check-ins, and immediately escalates missed affirmations.",
     image:
       "https://cdn.prod.website-files.com/692f25b223f2b302c5738113/695a0a2496547747739b4e11_project%20card%20image%202.avif",
-    alt: "Packaging Design with On-Demand Experts",
-    left: "#ff7479",
-    right: "#ff5a60",
+    alt: "Guard Check-In & Safety Verification",
+    left: "#1d4ed8",
+    right: "#1e1b4b",
   },
   {
-    title: "Plenova Web Design & Development",
+    title: "Client Incident & Status Voice Briefings",
     description:
-      "Plenova Web Design & Development builds modern, high-performing websites with clean UX, custom features, responsive layouts, and seamless functionality crafted to elevate brands.",
+      "Automated outbound briefings to property owners and facilities managers during security alerts, delivering calm, professional status updates and resolution reports.",
     image:
       "https://cdn.prod.website-files.com/692f25b223f2b302c5738113/695a08f632223729da7efafb_card%20image%202.avif",
-    alt: "Plenova Web Design & Development",
-    left: "#b5c868",
-    right: "#9fae4a",
+    alt: "Client Incident & Status Voice Briefings",
+    left: "#0284c7",
+    right: "#0c4a6e",
   },
 ];
 
@@ -76,55 +76,76 @@ function Card({
   i: number;
   progress: MotionValue<number>;
 }) {
-  // k = distance from the front card. 0 = front, >0 = waiting below, <0 = leaving upward
-  const k = useTransform(progress, (v) => i - v * (N - 1));
+  const cardStart = i / N;
+  const cardEnd = (i + 1) / N;
 
-  const scale = useTransform(k, (kk) =>
-    kk >= 0 ? 1 - STRIP_SCALE * Math.min(kk, 3) : 1
-  );
-  const y = useTransform(k, (kk) =>
-    kk >= 0 ? `${Math.min(kk, 3) * STRIP_PX}px` : `${Math.max(kk, -1.2) * 115}%`
-  );
-  const opacity = useTransform(k, (kk) =>
-    kk >= 0 ? 1 : Math.max(0, 1 + kk * 1.15)
-  );
-  const pointerEvents = useTransform(k, (kk) =>
-    Math.abs(kk) < 0.5 ? "auto" : "none"
-  );
+  const y = useTransform(progress, (p) => {
+    if (p < cardStart) {
+      const diff = i - p * N;
+      return diff * STRIP_PX;
+    }
+    if (p <= cardEnd) {
+      return 0;
+    }
+    return 0;
+  });
+
+  const scale = useTransform(progress, (p) => {
+    if (p < cardStart) {
+      const diff = i - p * N;
+      return 1 - diff * STRIP_SCALE;
+    }
+    if (p <= cardEnd) {
+      return 1;
+    }
+    const past = (p - cardEnd) * N;
+    return Math.max(0.85, 1 - past * 0.05);
+  });
+
+  const opacity = useTransform(progress, (p) => {
+    if (p > cardEnd + 0.15 / N) {
+      return 0;
+    }
+    return 1;
+  });
+
+  const pointerEvents = useTransform(progress, (p) => {
+    return p >= cardStart && p <= cardEnd ? "auto" : "none";
+  });
 
   return (
     <motion.div
       style={{
-        scale,
         y,
+        scale,
         opacity,
         pointerEvents,
-        zIndex: N - i, // earlier cards sit on top of later ones
+        zIndex: N - i,
       }}
       className="absolute inset-0 origin-bottom will-change-transform"
     >
-      <div className="h-full w-full overflow-hidden rounded-[2rem] shadow-[0_24px_60px_rgba(0,0,0,0.16)]">
+      <div className="h-full w-full overflow-hidden rounded-[2rem] border border-cyan-500/20 shadow-[0_24px_60px_rgba(0,0,0,0.5)]">
         <div className="grid h-full grid-cols-1 grid-rows-2 lg:grid-cols-2 lg:grid-rows-1">
           {/* left half */}
           <div
             style={{ backgroundColor: work.left }}
-            className="flex flex-col justify-center gap-5 p-6 sm:p-10 lg:gap-8 lg:p-16"
+            className="flex flex-col justify-center gap-5 p-6 sm:p-10 lg:gap-8 lg:p-16 text-white"
           >
-            <h3 className="font-display text-[clamp(2.2rem,5.2vw,5.5rem)] uppercase leading-[0.95] tracking-[-0.01em] text-[#141212]">
+            <h3 className="font-display text-[clamp(2.2rem,5.2vw,5.5rem)] uppercase leading-[0.95] tracking-[-0.01em] text-white">
               {work.title}
             </h3>
-            <p className="max-w-xl text-sm leading-6 text-black/80 sm:text-base lg:text-lg lg:leading-8">
+            <p className="max-w-xl text-sm leading-6 text-white/85 sm:text-base lg:text-lg lg:leading-8">
               {work.description}
             </p>
-            <button className="inline-flex w-fit items-center gap-4 rounded-full border border-black px-6 py-3 text-sm transition-transform hover:-translate-y-0.5">
-              Learn More
+            <button className="inline-flex w-fit items-center gap-4 rounded-full border border-white/60 bg-white/10 px-6 py-3 text-sm font-medium text-white transition-all hover:bg-white hover:text-[#08101e] hover:-translate-y-0.5">
+              Explore Capability
             </button>
           </div>
 
-          {/* right half: image sits directly on it, no extra box */}
+          {/* right half */}
           <div
             style={{ backgroundColor: work.right }}
-            className="relative min-h-0"
+            className="relative min-h-0 flex items-center justify-center"
           >
             <Image
               src={work.image}
@@ -146,7 +167,6 @@ export function WorkStack() {
   const container = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
 
-  // replays every time the heading re-enters the viewport
   const headingInView = useInView(headingRef, { amount: 0.3 });
 
   const { scrollYProgress } = useScroll({
@@ -155,15 +175,20 @@ export function WorkStack() {
   });
 
   return (
-    <section className="bg-white text-black">
+    <section className="bg-[#070d18] text-white border-t border-cyan-900/30">
       {/* Heading */}
       <div className="mx-auto max-w-[1600px] px-3 pb-6 pt-24 sm:px-6">
         <div ref={headingRef} className="relative">
-          <StaggerHeading text="Featured Works" inView={headingInView} badgeText="Digital Screens" />
+          <StaggerHeading
+            text="Core Capabilities"
+            inView={headingInView}
+            badgeText="Security AI"
+            className="font-display text-[clamp(3.5rem,14.5vw,14rem)] uppercase leading-[0.9] tracking-[-0.01em] text-white text-center"
+          />
         </div>
       </div>
 
-      {/* Scroll stack: each card gets 100vh of scroll */}
+      {/* Scroll stack */}
       <div
         ref={container}
         className="relative"

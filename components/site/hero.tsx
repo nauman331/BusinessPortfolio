@@ -1,14 +1,13 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Facebook, Instagram, X } from "lucide-react";
+import { Facebook, Instagram, PhoneCall, ShieldCheck, X } from "lucide-react";
 import { useWhenVisible } from "@/hooks/useWhenVisible";
 
-const navItems = ["About", "Works", "Services", "Contact"];
-const menuItems = ["Home", "About Us", "Projects", "Services", "Blog", "Contact"];
-const heroImage =
-  "https://cdn.prod.website-files.com/68efdb35db90f2ad02b2fe4b/69540fd8b62303bd205db6be_hero%20image.webp";
+const navItems = ["About", "Capabilities", "Solutions", "Contact"];
+const menuItems = ["Home", "About Us", "Security AI", "Roster Sync", "Capabilities", "Contact"];
+const heroImage = "/hero-security.jpg";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 18 },
@@ -81,7 +80,7 @@ function StaggerNavWord({ label }: { label: string }) {
 
 const lineTransition = { duration: 0.4, ease: [0.76, 0, 0.24, 1] as const };
 
-/* Rest: three equal, parallel slashes "///"  →  Hover: hamburger */
+/* Rest: three equal, parallel slashes "///" Hover: hamburger */
 function MenuButton({
   onClick,
 }: {
@@ -90,8 +89,6 @@ function MenuButton({
   const lineClass =
     "absolute left-1/2 top-1/2 -ml-3.5 -mt-px h-[2px] w-7 rounded-full bg-white";
 
-  // Same rotation + same length for all three. Offsets run perpendicular
-  // to the slash direction so the spacing is even.
   const SLASH = { rotate: -55, scaleX: 0.75 };
 
   return (
@@ -143,7 +140,7 @@ function DotsIcon() {
     <svg
       aria-hidden
       viewBox="0 0 24 24"
-      className="size-12 shrink-0 fill-white"
+      className="size-12 shrink-0 fill-cyan-400"
     >
       {dots.map(([cx, cy], i) => (
         <rect
@@ -206,7 +203,7 @@ export function Hero() {
         style={{ backgroundImage: `url("${heroImage}")` }}
       />
 
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.12)_100%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.18)_100%)]" />
 
       {/* HEADER */}
       <header
@@ -218,7 +215,7 @@ export function Hero() {
           href="#top"
           className="box-content flex h-10 items-center border-b border-white pb-3 font-display text-3xl uppercase leading-none"
         >
-          {"// Nauman"}
+          {"// Samad Calli"}
         </a>
 
         {navItems.map((item, i) => (
@@ -254,82 +251,82 @@ export function Hero() {
       </header>
 
       <AnimatePresence>
-  {menuOpen ? (
-    <motion.div
-      key="menu-overlay"
-      initial={{ opacity: 0, y: "-100%" }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: "100%" }}
-      transition={{ duration: 0.65, ease: [0.76, 0, 0.24, 1] }}
-      className="fixed inset-0 z-50 flex flex-col overflow-hidden bg-[#111111] text-white"
-    >
-      {/* Giant faded title + rotated tag */}
-      <div className="pointer-events-none relative h-[clamp(14rem,30vw,28rem)] shrink-0 overflow-hidden">
-        <div
-          className="absolute left-1/2 top-0 -translate-x-1/2 whitespace-nowrap bg-gradient-to-b from-white/35 to-transparent bg-clip-text font-display text-[clamp(6rem,22vw,22rem)] uppercase leading-[0.9] tracking-normal text-transparent"
-        >
-          Nauman Studio
-        </div>
-        <div className="absolute left-1/2 top-[38%] -translate-x-1/2 -translate-y-1/2 -rotate-[10deg] whitespace-nowrap bg-[#ff8b61] px-5 py-2 font-display text-[clamp(1.2rem,2.6vw,2.4rem)] uppercase leading-none text-black shadow-[0_18px_40px_rgba(0,0,0,0.25)]">
-          Design First Digital Agency
-        </div>
-      </div>
-
-      {/* Close button */}
-      <button
-        type="button"
-        aria-label="Close menu"
-        onClick={() => setMenuOpen(false)}
-        className="absolute right-8 top-7 z-20 grid size-[70px] place-items-center rounded-xl border border-white/40 transition-colors hover:bg-white/10"
-      >
-        <X className="size-8" strokeWidth={1.5} />
-      </button>
-
-      {/* Full-width menu rows */}
-      <nav className="relative z-10 flex flex-1 flex-col justify-start -mt-32">
-        {menuItems.map((item, index) => (
-          <motion.a
-            key={item}
-            href="#top"
-            onClick={() => setMenuOpen(false)}
-            onHoverStart={() => setActiveMenuIndex(index)}
-            onFocus={() => setActiveMenuIndex(index)}
-            className={`relative flex h-[clamp(3.5rem,7.2vw,4.9rem)] ms-center justify-center overflow-hidden border-b border-white/15 font-display text-[clamp(3rem,7.5vw,6.5rem)] uppercase leading-none tracking-normal transition-colors first:border-t-0 ${
-              activeMenuIndex === index ? "text-white" : "text-white/35"
-            }`}
+        {menuOpen ? (
+          <motion.div
+            key="menu-overlay"
+            initial={{ opacity: 0, y: "-100%" }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: "100%" }}
+            transition={{ duration: 0.65, ease: [0.76, 0, 0.24, 1] }}
+            className="fixed inset-0 z-50 flex flex-col overflow-hidden bg-[#070d18] text-white"
           >
-            {activeMenuIndex === index ? (
-              <motion.div
-                layoutId="menu-active-bg"
-                transition={{ duration: 0.35, ease: [0.76, 0, 0.24, 1] }}
-                className="absolute inset-0 bg-[#ff6b1a]"
-              />
-            ) : null}
-            <span className="relative z-10">{item}</span>
-          </motion.a>
-        ))}
-      </nav>
+            {/* Giant faded title + rotated tag */}
+            <div className="pointer-events-none relative h-[clamp(14rem,30vw,28rem)] shrink-0 overflow-hidden">
+              <div
+                className="absolute left-1/2 top-0 -translate-x-1/2 whitespace-nowrap bg-gradient-to-b from-white/30 to-transparent bg-clip-text font-display text-[clamp(6rem,22vw,22rem)] uppercase leading-[0.9] tracking-normal text-transparent"
+              >
+                Samad Calli
+              </div>
+              <div className="absolute left-1/2 top-[38%] -translate-x-1/2 -translate-y-1/2 -rotate-[10deg] whitespace-nowrap bg-[#00d4ff] px-5 py-2 font-display text-[clamp(1.2rem,2.6vw,2.4rem)] uppercase leading-none text-[#08101e] shadow-[0_18px_40px_rgba(0,212,255,0.35)]">
+                AI Calling Agent For Security
+              </div>
+            </div>
 
-      {/* Footer row */}
-      <div className="relative z-10 flex shrink-0 items-center justify-between px-[3vw] py-6 text-lg">
-        <a href="mailto:hello@nauman.com" className="underline underline-offset-4">
-          hello@nauman.com
-        </a>
+            {/* Close button */}
+            <button
+              type="button"
+              aria-label="Close menu"
+              onClick={() => setMenuOpen(false)}
+              className="absolute right-8 top-7 z-20 grid size-[70px] place-items-center rounded-xl border border-white/30 transition-colors hover:bg-cyan-500/10 hover:border-cyan-400"
+            >
+              <X className="size-8" strokeWidth={1.5} />
+            </button>
 
-        <div className="flex items-center gap-4">
-          <span>Follow us</span>
-          <span className="h-px w-12 bg-white" />
-          <a href="#top" aria-label="Instagram"><Instagram className="size-5" /></a>
-          <a href="#top" aria-label="Facebook"><Facebook className="size-5" /></a>
-        </div>
+            {/* Full-width menu rows */}
+            <nav className="relative z-10 flex flex-1 flex-col justify-start -mt-32">
+              {menuItems.map((item, index) => (
+                <motion.a
+                  key={item}
+                  href="#top"
+                  onClick={() => setMenuOpen(false)}
+                  onHoverStart={() => setActiveMenuIndex(index)}
+                  onFocus={() => setActiveMenuIndex(index)}
+                  className={`relative flex h-[clamp(3.5rem,7.2vw,4.9rem)] ms-center justify-center overflow-hidden border-b border-white/10 font-display text-[clamp(3rem,7.5vw,6.5rem)] uppercase leading-none tracking-normal transition-colors first:border-t-0 ${
+                    activeMenuIndex === index ? "text-[#08101e]" : "text-white/40"
+                  }`}
+                >
+                  {activeMenuIndex === index ? (
+                    <motion.div
+                      layoutId="menu-active-bg"
+                      transition={{ duration: 0.35, ease: [0.76, 0, 0.24, 1] }}
+                      className="absolute inset-0 bg-[#00d4ff]"
+                    />
+                  ) : null}
+                  <span className="relative z-10">{item}</span>
+                </motion.a>
+              ))}
+            </nav>
 
-        <a href="tel:+920000000000" className="underline underline-offset-4">
-          +92 000 0000000
-        </a>
-      </div>
-    </motion.div>
-  ) : null}
-</AnimatePresence>
+            {/* Footer row */}
+            <div className="relative z-10 flex shrink-0 items-center justify-between px-[3vw] py-6 text-lg border-t border-white/10">
+              <a href="mailto:contact@samadcalli.com" className="underline underline-offset-4 hover:text-[#00d4ff] transition-colors">
+                contact@samadcalli.com
+              </a>
+
+              <div className="flex items-center gap-4">
+                <span>Security Dispatch AI</span>
+                <span className="h-px w-12 bg-cyan-400" />
+                <a href="#top" aria-label="Security Status" className="hover:text-[#00d4ff] transition-colors"><ShieldCheck className="size-5" /></a>
+                <a href="#top" aria-label="AI Phone Calling" className="hover:text-[#00d4ff] transition-colors"><PhoneCall className="size-5" /></a>
+              </div>
+
+              <a href="tel:+18000000000" className="underline underline-offset-4 hover:text-[#00d4ff] transition-colors">
+                +1 (800) SAMAD-AI
+              </a>
+            </div>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
 
       {/* BODY */}
       <div className="relative z-20 flex flex-1 flex-col px-5 pb-[8vh] pt-10 lg:pt-[6vw]">
@@ -342,7 +339,7 @@ export function Hero() {
           }}
           className="w-full whitespace-nowrap text-center font-display text-[19vw] font-normal uppercase leading-[0.85] tracking-normal [-webkit-text-stroke:0.012em_white]"
         >
-          {Array.from("Nauman Studio").map((letter, index) => (
+          {Array.from("Samad Calli").map((letter, index) => (
             <motion.span
               key={`${letter}-${index}`}
               variants={fadeUp}
@@ -366,9 +363,9 @@ export function Hero() {
             transition={{ duration: 0.35, ease: "easeOut" }}
             className="font-display text-[clamp(3rem,5.6vw,6.2rem)] uppercase leading-[0.95]"
           >
-            Design-first
+            AI Calling Agent
             <br />
-            Digital Agency
+            For Security
           </motion.p>
 
           <motion.p
@@ -376,8 +373,7 @@ export function Hero() {
             transition={{ duration: 0.35, ease: "easeOut" }}
             className="max-w-[28rem] text-left text-base font-medium uppercase leading-snug text-white sm:text-lg"
           >
-            A multi-awarded digital studio crafting immersive &amp; interactive
-            experiences for global brands since 2006.
+            Intelligent AI voice dispatchers that integrate into security provider platforms, handle calls with live roster sync, and automate 24/7 guard response.
           </motion.p>
         </motion.div>
 
@@ -394,7 +390,7 @@ export function Hero() {
             className="flex items-center gap-4"
           >
             <span className="text-lg">Follow us</span>
-            <span className="h-px w-10 bg-white" />
+            <span className="h-px w-10 bg-cyan-400" />
             <div className="flex items-center gap-2">
               {[
                 { label: "Instagram", icon: Instagram },
@@ -404,7 +400,7 @@ export function Hero() {
                   key={label}
                   href="#top"
                   aria-label={label}
-                  className="grid place-items-center text-white transition-transform duration-300 hover:scale-110"
+                  className="grid place-items-center text-white transition-transform duration-300 hover:scale-110 hover:text-[#00d4ff]"
                 >
                   <Icon className="size-5" />
                 </a>
@@ -419,10 +415,10 @@ export function Hero() {
           >
             <DotsIcon />
             <div>
-              <p className="font-display text-[clamp(2.4rem,3.6vw,4rem)] uppercase leading-none">
-                $200M+
+              <p className="font-display text-[clamp(2.4rem,3.6vw,4rem)] uppercase leading-none text-[#00d4ff]">
+                24/7 AI
               </p>
-              <p className="mt-2 text-sm uppercase">Raised by Clients</p>
+              <p className="mt-2 text-sm uppercase text-white/90">Roster &amp; Dispatch Calling</p>
             </div>
           </motion.div>
         </motion.div>

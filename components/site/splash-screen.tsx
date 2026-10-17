@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, animate, motion } from "framer-motion";
 import { useWhenVisible } from "@/hooks/useWhenVisible";
 
-const brand = "Nauman Studio";
+const brand = "Samad Calli";
 const EASE = [0.76, 0, 0.24, 1] as const;
 const SPLASH_MS = 1650;
 
@@ -60,19 +60,19 @@ export function SplashScreen() {
           transition={{ duration: 0.7, ease: EASE }}
           role="status"
           aria-label="Loading"
-          className="fixed inset-0 z-50 flex h-screen w-screen flex-col justify-between overflow-hidden bg-[#121212] px-5 py-4 text-white"
+          className="fixed inset-0 z-50 flex h-screen w-screen flex-col justify-between overflow-hidden bg-[#08101e] px-5 py-4 text-white"
         >
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: ready ? 1 : 0 }}
             transition={{ duration: 0.4, delay: 0.1 }}
-            className="flex items-center justify-between border-b border-white/30 pb-3"
+            className="flex items-center justify-between border-b border-cyan-500/20 pb-3"
           >
-            <span className="font-display text-2xl uppercase leading-none">
-              {"// Nauman"}
+            <span className="font-display text-2xl uppercase leading-none text-white">
+              {"// Samad Calli"}
             </span>
-            <span className="text-xs uppercase tracking-[0.35em] text-white/60">
-              Loading experience
+            <span className="text-xs uppercase tracking-[0.35em] text-cyan-400/80">
+              AI Security Dispatch Engine
             </span>
           </motion.div>
 
@@ -84,7 +84,7 @@ export function SplashScreen() {
               show: { transition: { staggerChildren: 0.04, delayChildren: 0.15 } },
             }}
             aria-label={brand}
-            className="flex w-full justify-center whitespace-nowrap font-display text-[15vw] font-normal uppercase leading-[0.9] tracking-normal"
+            className="flex w-full justify-center whitespace-nowrap font-display text-[15vw] font-normal uppercase leading-[0.9] tracking-normal text-white"
           >
             {Array.from(brand).map((letter, index) => (
               <span
@@ -106,13 +106,13 @@ export function SplashScreen() {
           <div>
             <div className="mb-3 flex items-end justify-between">
               <span className="text-xs uppercase tracking-[0.35em] text-white/60">
-                Design-first digital agency
+                24/7 AI Voice Dispatch For Security Providers
               </span>
-              <span className="font-display text-5xl leading-none tabular-nums sm:text-7xl">
+              <span className="font-display text-5xl leading-none tabular-nums text-[#00d4ff] sm:text-7xl">
                 {count}
               </span>
             </div>
-            <div className="h-px w-full bg-white/20">
+            <div className="h-0.5 w-full bg-cyan-950/60 overflow-hidden rounded-full">
               <motion.div
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: ready ? 1 : 0 }}
@@ -120,7 +120,7 @@ export function SplashScreen() {
                   duration: (SPLASH_MS - 250) / 1000,
                   ease: [0.45, 0, 0.2, 1],
                 }}
-                className="h-full origin-left bg-white"
+                className="h-full origin-left bg-[#00d4ff] shadow-[0_0_12px_#00d4ff]"
               />
             </div>
           </div>

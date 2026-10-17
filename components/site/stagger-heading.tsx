@@ -5,9 +5,9 @@ import { motion } from "framer-motion";
 export function StaggerHeading({
   text,
   inView,
-  className = "font-display text-[clamp(3.5rem,14.5vw,14rem)] uppercase leading-[0.9] tracking-[-0.01em] text-[#141414]",
+  className = "font-display text-[clamp(3.5rem,14.5vw,14rem)] uppercase leading-[0.9] tracking-[-0.01em] text-[#08101e]",
   badgeText,
-  badgeClassName = "bg-[#e4ff66] px-[0.7em] py-[0.35em] font-display text-[clamp(0.9rem,2.6vw,2.4rem)] uppercase leading-none text-[#141414] rotate-[-10deg]",
+  badgeClassName = "bg-[#00d4ff] px-[0.7em] py-[0.35em] font-display text-[clamp(0.9rem,2.6vw,2.4rem)] uppercase leading-none text-[#08101e] rotate-[-10deg] shadow-[0_12px_32px_rgba(0,212,255,0.35)]",
 }: {
   text: string;
   inView: boolean;
