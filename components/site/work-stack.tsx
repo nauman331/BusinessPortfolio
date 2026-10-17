@@ -25,41 +25,37 @@ const works: WorkItem[] = [
     title: "Automated Roster Sync & Shift Dispatch",
     description:
       "Bi-directional API sync with your security scheduling platform. The AI calls off-duty and standby guards to confirm shifts, fill open roster gaps, and instantly updates your live dashboard.",
-    image:
-      "https://cdn.prod.website-files.com/692f25b223f2b302c5738113/6958ad981856872ea999e6bc_card%20image%202.avif",
+    image: "/images/capabilities/roster-sync.jpg",
     alt: "Automated Roster Sync & Shift Dispatch",
-    left: "#0e7490",
-    right: "#083344",
+    left: "#081729",
+    right: "#050e1a",
   },
   {
     title: "24/7 Rapid Incident Callout Dispatch",
     description:
       "Instant voice dispatch triggered by alarm alerts or panic codes. The AI dials the nearest active patrol units with exact location data, incident classification, and entry protocols.",
-    image:
-      "https://cdn.prod.website-files.com/692f25b223f2b302c5738113/695a09e703602d5c373cac12_project%20card%20image.avif",
+    image: "/images/capabilities/incident-dispatch.jpg",
     alt: "24/7 Rapid Incident Callout Dispatch",
-    left: "#0f766e",
-    right: "#134e4a",
+    left: "#061a26",
+    right: "#041018",
   },
   {
     title: "Guard Check-In & Safety Verification",
     description:
       "Autonomous hourly voice check-ins for lone guards and overnight patrols. The AI verifies guard responsiveness, logs status check-ins, and immediately escalates missed affirmations.",
-    image:
-      "https://cdn.prod.website-files.com/692f25b223f2b302c5738113/695a0a2496547747739b4e11_project%20card%20image%202.avif",
+    image: "/images/capabilities/guard-verification.jpg",
     alt: "Guard Check-In & Safety Verification",
-    left: "#1d4ed8",
-    right: "#1e1b4b",
+    left: "#0a1630",
+    right: "#060e20",
   },
   {
     title: "Client Incident & Status Voice Briefings",
     description:
       "Automated outbound briefings to property owners and facilities managers during security alerts, delivering calm, professional status updates and resolution reports.",
-    image:
-      "https://cdn.prod.website-files.com/692f25b223f2b302c5738113/695a08f632223729da7efafb_card%20image%202.avif",
+    image: "/images/capabilities/client-briefings.jpg",
     alt: "Client Incident & Status Voice Briefings",
-    left: "#0284c7",
-    right: "#0c4a6e",
+    left: "#0c1b2f",
+    right: "#07111f",
   },
 ];
 
@@ -76,55 +72,34 @@ function Card({
   i: number;
   progress: MotionValue<number>;
 }) {
-  const cardStart = i / N;
-  const cardEnd = (i + 1) / N;
+  // k = distance from the front card. 0 = front, >0 = waiting below, <0 = leaving upward
+  const k = useTransform(progress, (v) => i - v * (N - 1));
 
-  const y = useTransform(progress, (p) => {
-    if (p < cardStart) {
-      const diff = i - p * N;
-      return diff * STRIP_PX;
-    }
-    if (p <= cardEnd) {
-      return 0;
-    }
-    return 0;
-  });
-
-  const scale = useTransform(progress, (p) => {
-    if (p < cardStart) {
-      const diff = i - p * N;
-      return 1 - diff * STRIP_SCALE;
-    }
-    if (p <= cardEnd) {
-      return 1;
-    }
-    const past = (p - cardEnd) * N;
-    return Math.max(0.85, 1 - past * 0.05);
-  });
-
-  const opacity = useTransform(progress, (p) => {
-    if (p > cardEnd + 0.15 / N) {
-      return 0;
-    }
-    return 1;
-  });
-
-  const pointerEvents = useTransform(progress, (p) => {
-    return p >= cardStart && p <= cardEnd ? "auto" : "none";
-  });
+  const scale = useTransform(k, (kk) =>
+    kk >= 0 ? 1 - STRIP_SCALE * Math.min(kk, 3) : 1
+  );
+  const y = useTransform(k, (kk) =>
+    kk >= 0 ? `${Math.min(kk, 3) * STRIP_PX}px` : `${Math.max(kk, -1.2) * 115}%`
+  );
+  const opacity = useTransform(k, (kk) =>
+    kk >= 0 ? 1 : Math.max(0, 1 + kk * 1.15)
+  );
+  const pointerEvents = useTransform(k, (kk) =>
+    Math.abs(kk) < 0.5 ? "auto" : "none"
+  );
 
   return (
     <motion.div
       style={{
-        y,
         scale,
+        y,
         opacity,
         pointerEvents,
-        zIndex: N - i,
+        zIndex: N - i, // earlier cards sit on top of later ones
       }}
       className="absolute inset-0 origin-bottom will-change-transform"
     >
-      <div className="h-full w-full overflow-hidden rounded-[2rem] border border-cyan-500/20 shadow-[0_24px_60px_rgba(0,0,0,0.5)]">
+      <div className="h-full w-full overflow-hidden rounded-[2rem] border border-cyan-500/25 shadow-[0_24px_60px_rgba(0,0,0,0.6)]">
         <div className="grid h-full grid-cols-1 grid-rows-2 lg:grid-cols-2 lg:grid-rows-1">
           {/* left half */}
           <div
@@ -137,7 +112,7 @@ function Card({
             <p className="max-w-xl text-sm leading-6 text-white/85 sm:text-base lg:text-lg lg:leading-8">
               {work.description}
             </p>
-            <button className="inline-flex w-fit items-center gap-4 rounded-full border border-white/60 bg-white/10 px-6 py-3 text-sm font-medium text-white transition-all hover:bg-white hover:text-[#08101e] hover:-translate-y-0.5">
+            <button className="inline-flex w-fit items-center gap-4 rounded-full border border-cyan-400/60 bg-cyan-500/10 px-6 py-3 text-sm font-medium text-cyan-300 transition-all hover:bg-[#00d4ff] hover:text-[#08101e] hover:border-[#00d4ff] hover:shadow-[0_0_20px_rgba(0,212,255,0.4)] hover:-translate-y-0.5">
               Explore Capability
             </button>
           </div>
@@ -145,15 +120,18 @@ function Card({
           {/* right half */}
           <div
             style={{ backgroundColor: work.right }}
-            className="relative min-h-0 flex items-center justify-center"
+            className="relative min-h-0 p-4 sm:p-6 lg:p-8 flex items-center justify-center overflow-hidden"
           >
-            <Image
-              src={work.image}
-              alt={work.alt}
-              fill
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-contain p-4 lg:p-10"
-            />
+            <div className="relative h-full w-full overflow-hidden rounded-[1.5rem] border border-cyan-500/30 shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
+              <Image
+                src={work.image}
+                alt={work.alt}
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+            </div>
           </div>
         </div>
       </div>
